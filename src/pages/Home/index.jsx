@@ -1,25 +1,16 @@
 import { Popconfirm, Space, Table } from "antd";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getPosts } from "../../redux/actions/posts";
 
 const Home = () => {
-
-
-  const handleDelete = () => {
-
-  }
-  const dataSource = [
-    {
-      key: "1",
-      name: "Mike",
-      age: 32,
-      address: "10 Downing Street",
-    },
-    {
-      key: "2",
-      name: "John",
-      age: 42,
-      address: "10 Downing Street",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { posts } = useSelector(({ posts: { posts } }) => ({ posts }));
+  useEffect(() => {
+    dispatch(getPosts());
+  }, []);
+  const handleDelete = () => {};
 
   const columns = [
     {
@@ -54,7 +45,7 @@ const Home = () => {
   return (
     <div className="home-page">
       <h1>Welcome to posts home</h1>
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={posts} pagination={false} columns={columns} />
     </div>
   );
 };
