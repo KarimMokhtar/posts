@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { changePage } from "../../redux/actions/pagination";
@@ -28,6 +28,7 @@ const Pagination = () => {
     if (pagination.currPage >= start + maxPagesNum) {
       setStart(pagination.currPage);
     }
+    // eslint-disable-next-line
   }, [pagination.currPage]);
 
   const handleChangePage = page => {

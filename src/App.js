@@ -1,8 +1,9 @@
-import "./App.css";
-import "antd/dist/antd.css";
+import React from 'react';
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Post from "./pages/Post";
+import "antd/dist/antd.min.css";
+import "./App.css";
 
 function App() {
   return (

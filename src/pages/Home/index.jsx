@@ -1,5 +1,5 @@
+import React, { useEffect } from "react";
 import { Popconfirm, Space, Table } from "antd";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,10 +11,9 @@ const perPage = 10;
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { posts, pagination, loading } = useSelector(({ posts: { posts, loading }, pagination }) => ({
+  const { posts, pagination } = useSelector(({ posts: { posts }, pagination }) => ({
     posts,
     pagination,
-    loading,
   }));
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Home = () => {
       if (currPage > totalPages) currPage--;
       dispatch(initiatePages({ total, totalPages: totalPages + 1, currPage }));
     }
-  }, [dispatch, posts]);
+  }, [dispatch, posts, pagination.currPage]);
 
   const handleDelete = async id => {
     await dispatch(deletePost(id));
@@ -57,7 +56,7 @@ const Home = () => {
             onConfirm={() => {
               handleDelete(record.id);
             }}>
-            <a>Delete</a>
+            <span>Delete</span>
           </Popconfirm>
           <Link to={`/post/${record.id}`}>Edit</Link>
         </Space>
