@@ -3,6 +3,7 @@ import { CHANGE_PAGE, INITIATE_PAGES } from "../constants";
 const initialState = {
   total: 0,
   currPage: 1,
+  totalPages: 0,
 };
 
 export default function postReducer(state = initialState, action) {

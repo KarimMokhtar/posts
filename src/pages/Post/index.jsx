@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getPost } from "../../redux/actions/posts";
-import { Form, Input, Button, message } from "antd";
+import { editPost, getPost } from "../../redux/actions/posts";
+import { Form, Input, Button } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 
 const Post = () => {
@@ -14,11 +14,11 @@ const Post = () => {
   const { selectedPost, loading } = useSelector(({ posts }) => posts);
   useEffect(() => {
     dispatch(getPost(id));
-  }, [id]);
+  }, [id, dispatch]);
 
   const onFinish = values => {
     console.log(values);
-    message.success("updated successfully");
+    dispatch(editPost({ ...values, id }));
   };
   if (loading || !selectedPost) return <div>...Loading</div>;
   return (

@@ -68,7 +68,6 @@ export const getPosts = () => async dispatch => {
   dispatch(getPostsStart());
   try {
     const res = await getPostsApi();
-    dispatch(initiatePages({ total: res.data.length }));
     return dispatch(getPostsSuccess(res.data));
   } catch (err) {
     return dispatch(getPostsFailure("Something went wrong..."));
@@ -87,8 +86,9 @@ export const deletePostFailure = error => {
   };
 };
 
-export const deletePostSuccess = () => {
+export const deletePostSuccess = id => {
   return {
+    payload: id,
     type: DELETE_POSTS_SUCCESS,
   };
 };
@@ -97,8 +97,10 @@ export const deletePost = id => async dispatch => {
   dispatch(deletePostStart());
   try {
     await deletePostsApi(id);
-    return dispatch(deletePostSuccess());
+    message.success("Post deleted successfully!");
+    return dispatch(deletePostSuccess(id));
   } catch (err) {
+    message.success("Something went wrong...");
     return dispatch(deletePostFailure("Something went wrong..."));
   }
 };

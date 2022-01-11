@@ -2,9 +2,10 @@ import { Popconfirm, Space, Table } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { deletePost, getPosts } from "../../redux/actions/posts";
 import Pagination from "../../components/Pagination";
-import { Link } from "react-router-dom";
+import { initiatePages } from "../../redux/actions/pagination";
 
 const perPage = 10;
 
@@ -18,11 +19,20 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getPosts());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (posts.length) {
+      const total = posts.length;
+      const totalPages = Math.ceil(total / 10);
+      let currPage = pagination.currPage;
+      if (currPage > totalPages) currPage--;
+      dispatch(initiatePages({ total, totalPages: totalPages + 1, currPage }));
+    }
+  }, [dispatch, posts]);
 
   const handleDelete = async id => {
     await dispatch(deletePost(id));
-    dispatch(getPosts());
   };
 
   const columns = [
@@ -54,7 +64,6 @@ const Home = () => {
       ),
     },
   ];
-  if (loading) return <div>...loading</div>;
   return (
     <div className="home-page">
       <h1>Welcome to posts home</h1>

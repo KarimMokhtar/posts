@@ -40,7 +40,8 @@ export default function postReducer(state = initialState, action) {
       return { ...state, error: action.payload, loading: false };
     }
     case DELETE_POSTS_SUCCESS: {
-      return { ...state, loading: false };
+      const newPosts = state.posts.filter(post => post.id !== action.payload);
+      return { ...state, posts: newPosts, loading: false };
     }
     // get single post
     case GET_POST_START: {

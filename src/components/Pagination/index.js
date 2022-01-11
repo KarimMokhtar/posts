@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { changePage } from "../../redux/actions/pagination";
 import "./style.css";
 const maxPagesNum = 6;
 
-const pagesCount = (start, curr, handleClick, total) => {
+const pagesCount = (start, curr, handleClick, totalPages) => {
   const pages = [];
-  const totalPages = (total + 9) / 10;
   let num = maxPagesNum + start;
   if (num > totalPages) num = totalPages;
 
@@ -22,8 +21,14 @@ const pagesCount = (start, curr, handleClick, total) => {
 };
 const Pagination = () => {
   const [start, setStart] = useState(1);
-  const pagination = useSelector(({ pagination }) => pagination);
+  const { pagination } = useSelector(({ pagination }) => ({ pagination }));
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (pagination.currPage >= start + maxPagesNum) {
+      setStart(pagination.currPage);
+    }
+  }, [pagination.currPage]);
 
   const handleChangePage = page => {
     dispatch(changePage(page));
@@ -33,14 +38,14 @@ const Pagination = () => {
     setStart(prev => prev - 1);
   };
   const handleNext = () => {
-    if (maxPagesNum + start >= pagination.total / 10) return;
+    if (maxPagesNum + start >= pagination.totalPages) return;
     setStart(prev => prev + 1);
   };
   if (pagination.total < 11) return null;
   return (
-    <div class="pagination">
+    <div className="pagination">
       <div onClick={handlePrev}>&laquo;</div>
-      {pagesCount(start, pagination.currPage, handleChangePage, pagination.total)}
+      {pagesCount(start, pagination.currPage, handleChangePage, pagination.totalPages)}
       <div onClick={handleNext}>&raquo;</div>
     </div>
   );
