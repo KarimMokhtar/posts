@@ -20,7 +20,7 @@ export const deletePostsApi = id =>
 
 export const editPostApi = post =>
   axios({
-    url: `/posts/${post.id}`,
+    url: `/posts`,
     method: "POST",
-    body: post,
+    data: post,
   });

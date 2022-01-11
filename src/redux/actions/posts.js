@@ -14,7 +14,6 @@ import {
   EDIT_POSTS_FAILURE,
   EDIT_POSTS_SUCCESS,
 } from "../constants";
-import { initiatePages } from "./pagination";
 
 //get single post
 export const getPostStart = () => ({
