@@ -1,10 +1,16 @@
-import './App.css';
-import 'antd/dist/antd.css';
-import Home from './pages/Home';
+import "./App.css";
+import "antd/dist/antd.css";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Post from "./pages/Post";
+
 function App() {
   return (
     <div className="App">
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route exact path="post/:id" element={<Post />} />
+      </Routes>
     </div>
   );
 }

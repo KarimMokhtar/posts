@@ -5,6 +5,9 @@ import {
   DELETE_POSTS_START,
   DELETE_POSTS_FAILURE,
   DELETE_POSTS_SUCCESS,
+  GET_POST_START,
+  GET_POST_FAILURE,
+  GET_POST_SUCCESS,
 } from "../constants";
 
 const initialState = {
@@ -16,6 +19,7 @@ const initialState = {
 
 export default function postReducer(state = initialState, action) {
   switch (action.type) {
+    // get posts list
     case GET_POSTS_START: {
       return { ...state, error: null, loading: true };
     }
@@ -25,6 +29,7 @@ export default function postReducer(state = initialState, action) {
     case GET_POSTS_SUCCESS: {
       return { ...state, posts: action.payload, loading: false };
     }
+    // delete post
     case DELETE_POSTS_START: {
       return { ...state, error: null, loading: true };
     }
@@ -33,6 +38,16 @@ export default function postReducer(state = initialState, action) {
     }
     case DELETE_POSTS_SUCCESS: {
       return { ...state, loading: false };
+    }
+    // get single post
+    case GET_POST_START: {
+      return { ...state, error: null, loading: true };
+    }
+    case GET_POST_FAILURE: {
+      return { ...state, error: action.payload, loading: false };
+    }
+    case GET_POST_SUCCESS: {
+      return { ...state, selectedPost: action.payload, loading: false };
     }
     default:
       return state;
