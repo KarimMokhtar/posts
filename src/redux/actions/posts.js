@@ -1,5 +1,6 @@
 import { getPostsApi } from "../../api";
 import { GET_POSTS_START, GET_POSTS_SUCCESS, GET_POSTS_FAILURE } from "../constants";
+import { initiatePages } from "./pagination";
 
 export const getPostsStart = () => ({
   type: GET_POSTS_START,
@@ -12,9 +13,9 @@ export const getPostsFailure = error => {
   };
 };
 
-export const getPostsSuccess = error => {
+export const getPostsSuccess = data => {
   return {
-    payload: error,
+    payload: data,
     type: GET_POSTS_SUCCESS,
   };
 };
@@ -23,6 +24,7 @@ export const getPosts = () => async dispatch => {
   dispatch(getPostsStart());
   try {
     const res = await getPostsApi();
+    dispatch(initiatePages({ total: res.data.length }));
     return dispatch(getPostsSuccess(res.data));
   } catch (err) {
     return dispatch(getPostsFailure("Something went wrong..."));

@@ -5,9 +5,12 @@ import { useDispatch } from "react-redux";
 import { getPosts } from "../../redux/actions/posts";
 import Pagination from "../../components/Pagination";
 
+const perPage = 10;
+
 const Home = () => {
   const dispatch = useDispatch();
-  const { posts } = useSelector(({ posts: { posts } }) => ({ posts }));
+  const { posts, pagination } = useSelector(({ posts: { posts }, pagination }) => ({ posts, pagination }));
+  console.log("pagination", pagination);
   useEffect(() => {
     dispatch(getPosts());
   }, []);
@@ -46,7 +49,11 @@ const Home = () => {
   return (
     <div className="home-page">
       <h1>Welcome to posts home</h1>
-      <Table dataSource={posts} pagination={false} columns={columns} />
+      <Table
+        dataSource={posts.slice((pagination.currPage - 1) * perPage, pagination.currPage * perPage)}
+        pagination={false}
+        columns={columns}
+      />
       <Pagination />
     </div>
   );
