@@ -1,7 +1,5 @@
 .pagination {
   display: inline-block;
-  position: fixed;
-  bottom: 60px;
 }
 
 .pagination div {

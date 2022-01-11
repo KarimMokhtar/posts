@@ -66,12 +66,12 @@ const Home = () => {
   return (
     <div className="home-page">
       <h1>Welcome to posts home</h1>
+      <Pagination />
       <Table
         dataSource={posts.slice((pagination.currPage - 1) * perPage, pagination.currPage * perPage)}
         pagination={false}
         columns={columns}
       />
-      <Pagination />
     </div>
   );
 };
