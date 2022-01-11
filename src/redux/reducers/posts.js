@@ -1,4 +1,11 @@
-import { GET_POSTS_FAILURE, GET_POSTS_START, GET_POSTS_SUCCESS } from "../constants";
+import {
+  GET_POSTS_FAILURE,
+  GET_POSTS_START,
+  GET_POSTS_SUCCESS,
+  DELETE_POSTS_START,
+  DELETE_POSTS_FAILURE,
+  DELETE_POSTS_SUCCESS,
+} from "../constants";
 
 const initialState = {
   posts: [],
@@ -17,6 +24,15 @@ export default function postReducer(state = initialState, action) {
     }
     case GET_POSTS_SUCCESS: {
       return { ...state, posts: action.payload, loading: false };
+    }
+    case DELETE_POSTS_START: {
+      return { ...state, error: null, loading: true };
+    }
+    case DELETE_POSTS_FAILURE: {
+      return { ...state, error: action.payload, loading: false };
+    }
+    case DELETE_POSTS_SUCCESS: {
+      return { ...state, loading: false };
     }
     default:
       return state;

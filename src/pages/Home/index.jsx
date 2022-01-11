@@ -2,19 +2,27 @@ import { Popconfirm, Space, Table } from "antd";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getPosts } from "../../redux/actions/posts";
+import { deletePost, getPosts } from "../../redux/actions/posts";
 import Pagination from "../../components/Pagination";
 
 const perPage = 10;
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { posts, pagination } = useSelector(({ posts: { posts }, pagination }) => ({ posts, pagination }));
-  console.log("pagination", pagination);
+  const { posts, pagination, loading } = useSelector(({ posts: { posts, loading }, pagination }) => ({
+    posts,
+    pagination,
+    loading,
+  }));
+
   useEffect(() => {
     dispatch(getPosts());
   }, []);
-  const handleDelete = () => {};
+
+  const handleDelete = async id => {
+    await dispatch(deletePost(id));
+    dispatch(getPosts());
+  };
 
   const columns = [
     {
@@ -45,7 +53,7 @@ const Home = () => {
       ),
     },
   ];
-
+  if (loading) return <div>...loading</div>;
   return (
     <div className="home-page">
       <h1>Welcome to posts home</h1>
