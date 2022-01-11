@@ -1,4 +1,5 @@
-import { getPostsApi, deletePostsApi, getPostApi } from "../../api";
+import { message } from "antd";
+import { getPostsApi, deletePostsApi, getPostApi, editPostApi } from "../../api";
 import {
   GET_POSTS_START,
   GET_POSTS_SUCCESS,
@@ -9,6 +10,9 @@ import {
   GET_POST_START,
   GET_POST_FAILURE,
   GET_POST_SUCCESS,
+  EDIT_POSTS_START,
+  EDIT_POSTS_FAILURE,
+  EDIT_POSTS_SUCCESS,
 } from "../constants";
 import { initiatePages } from "./pagination";
 
@@ -71,6 +75,7 @@ export const getPosts = () => async dispatch => {
   }
 };
 
+// delete post function
 export const deletePostStart = () => ({
   type: DELETE_POSTS_START,
 });
@@ -95,5 +100,35 @@ export const deletePost = id => async dispatch => {
     return dispatch(deletePostSuccess());
   } catch (err) {
     return dispatch(deletePostFailure("Something went wrong..."));
+  }
+};
+
+// edit post
+export const editPostStart = () => ({
+  type: EDIT_POSTS_START,
+});
+
+export const editPostFailure = error => {
+  return {
+    payload: error,
+    type: EDIT_POSTS_FAILURE,
+  };
+};
+
+export const editPostSuccess = () => {
+  return {
+    type: EDIT_POSTS_SUCCESS,
+  };
+};
+
+export const editPost = post => async dispatch => {
+  dispatch(editPostStart());
+  try {
+    await editPostApi(post);
+    message.success("Post edited successfully!");
+    return dispatch(editPostSuccess());
+  } catch (err) {
+    message.error("Something went wrong, please try again");
+    return dispatch(editPostFailure("Something went wrong..."));
   }
 };

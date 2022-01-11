@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getPost } from "../../redux/actions/posts";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 
 const Post = () => {
+  console.log("useParams()", useParams());
   const { id } = useParams();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -17,11 +18,12 @@ const Post = () => {
 
   const onFinish = values => {
     console.log(values);
+    message.success("updated successfully");
   };
-
-  if (loading) return <div>...Loading</div>;
+  if (loading || !selectedPost) return <div>...Loading</div>;
   return (
     <div>
+      <Link to="/">Home</Link>
       <Form
         initialValues={{ body: selectedPost.body, title: selectedPost.title }}
         layout="vertical"
@@ -50,7 +52,7 @@ const Post = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button disabled={loading} type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

@@ -8,6 +8,9 @@ import {
   GET_POST_START,
   GET_POST_FAILURE,
   GET_POST_SUCCESS,
+  EDIT_POSTS_START,
+  EDIT_POSTS_FAILURE,
+  EDIT_POSTS_SUCCESS,
 } from "../constants";
 
 const initialState = {
@@ -48,6 +51,16 @@ export default function postReducer(state = initialState, action) {
     }
     case GET_POST_SUCCESS: {
       return { ...state, selectedPost: action.payload, loading: false };
+    }
+    // edit post
+    case EDIT_POSTS_START: {
+      return { ...state, error: null, loading: true };
+    }
+    case EDIT_POSTS_FAILURE: {
+      return { ...state, error: action.payload, loading: false };
+    }
+    case EDIT_POSTS_SUCCESS: {
+      return { ...state, loading: false };
     }
     default:
       return state;

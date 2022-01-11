@@ -17,3 +17,10 @@ export const deletePostsApi = id =>
     url: `/posts/${id}`,
     method: "DELETE",
   });
+
+export const editPostApi = post =>
+  axios({
+    url: `/posts/${post.id}`,
+    method: "POST",
+    body: post,
+  });

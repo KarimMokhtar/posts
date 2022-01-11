@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { deletePost, getPosts } from "../../redux/actions/posts";
 import Pagination from "../../components/Pagination";
+import { Link } from "react-router-dom";
 
 const perPage = 10;
 
@@ -29,7 +30,7 @@ const Home = () => {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      render: text => <a>{text}</a>,
+      render: (text, record) => <Link to={`/post/${record.id}`}>{text}</Link>,
     },
     {
       title: "Description",
@@ -48,7 +49,7 @@ const Home = () => {
             }}>
             <a>Delete</a>
           </Popconfirm>
-          <a>Edit</a>
+          <Link to={`/post/${record.id}`}>Edit</Link>
         </Space>
       ),
     },
