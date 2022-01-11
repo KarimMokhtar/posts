@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getPosts } from "../../redux/actions/posts";
+import Pagination from "../../components/Pagination";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const Home = () => {
     <div className="home-page">
       <h1>Welcome to posts home</h1>
       <Table dataSource={posts} pagination={false} columns={columns} />
+      <Pagination />
     </div>
   );
 };
